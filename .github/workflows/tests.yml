@@ -1,0 +1,69 @@
+name: tests
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  schedule:
+    # Run every Sunday
+    - cron: "0 0 * * 0"
+  workflow_dispatch:
+
+jobs:
+  code-quality:
+    name: Code Quality
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: extractions/setup-just@v2
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Lint package
+        run: |
+          uv run --group lint just lint
+
+      - name: Typecheck package
+        run: |
+          uv run --group lint just typecheck
+
+  tests:
+    name: "Tests (${{ matrix.os }}, Python ${{ matrix.python-version }})"
+    needs: code-quality
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, macos-latest, windows-latest]
+        python-version: [3.8, 3.9, "3.10", "3.11", "3.12", "3.13"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/checkout@v4
+
+      - uses: extractions/setup-just@v2
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Run tests
+        run: |
+          just python=${{ matrix.python-version }} test
+
+      # - name: Upload coverage to codecov
+      #   uses: codecov/codecov-action@v5
+      #   with:
+      #     files: ./coverage.xml
+      #     fail_ci_if_error: true
+      #     token: ${{ secrets.CODECOV_TOKEN }}
+      #   if: ${{ matrix.os == 'ubuntu-latest' }}
+
+  notify:
+    name: Notify failed build
+    needs: [code-quality, tests]
+    if: failure() && github.event.pull_request == null
+    runs-on: ubuntu-latest
+    steps:
+      - uses: jayqi/failed-build-issue-action@v1
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}

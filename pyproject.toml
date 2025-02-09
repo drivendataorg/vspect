@@ -1,0 +1,65 @@
+[project]
+name = "vspect"
+version = "0.1.0"
+description = "A lightweight command-line utility for working with Python package version strings."
+readme = "README.md"
+authors = [
+  { name = "Jay Qi", email = "jayqi@users.noreply.github.com" },
+]
+license = { file = "LICENSE" }
+keywords = ["pep 440", "packaging", "versions", "cli"]
+classifiers = [
+  "Intended Audience :: Developers",
+  "License :: OSI Approved :: MIT License",
+  "Operating System :: OS Independent",
+  "Programming Language :: Python :: 3",
+  "Programming Language :: Python :: 3.8",
+  "Programming Language :: Python :: 3.9",
+  "Programming Language :: Python :: 3.10",
+  "Programming Language :: Python :: 3.11",
+  "Programming Language :: Python :: 3.12",
+  "Programming Language :: Python :: 3.13",
+]
+requires-python = ">=3.8"
+dependencies = [
+  "packaging",
+]
+
+[project.scripts]
+vspect = "vspect.__main__:main"
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+## DEPENDENCY GROUPS
+
+[dependency-groups]
+dev = [
+  { include-group = "lint" },
+]
+lint = [
+  "mypy[install-types]",
+  "ruff",
+]
+tests = [
+  "pytest",
+]
+
+## TOOLS
+
+[tool.ruff]
+line-length = 99
+src = ["src"]
+
+[tool.ruff.lint]
+select = [
+  "E", # Pyflakes
+  "F", # Pycodestyle
+  "I", # isort
+]
+unfixable = ["F"]
+
+[tool.ruff.lint.isort]
+known-first-party = ["vers_inspect"]
+force-sort-within-sections = true
