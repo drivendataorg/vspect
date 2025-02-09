@@ -3,10 +3,12 @@ import sys
 
 import pytest
 
+EXECUTABLE = [sys.executable]
+
 
 def test_help():
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "--help"],
+        EXECUTABLE + ["-m", "vspect", "--help"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -19,8 +21,23 @@ def test_help():
     assert "parse" in result.stdout
     assert "package" in result.stdout
 
+    # Running with no command prints out help but gives error code
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "parse", "--help"],
+        EXECUTABLE + ["-m", "vspect"],
+        capture_output=True,
+        universal_newlines=True,
+    )
+    assert result.returncode > 0
+    assert (
+        "Lightweight utility for working with Python package version strings."
+        in result.stdout
+    )
+    assert "Commands" in result.stdout
+    assert "parse" in result.stdout
+    assert "package" in result.stdout
+
+    result = subprocess.run(
+        EXECUTABLE + ["-m", "vspect", "parse", "--help"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -28,7 +45,7 @@ def test_help():
     assert "Parse a valid PEP 440 version string and format it." in result.stdout
 
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "package", "--help"],
+        EXECUTABLE + ["-m", "vspect", "package", "--help"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -38,7 +55,7 @@ def test_help():
 
 def test_parse():
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "parse", "1.2.3"],
+        EXECUTABLE + ["-m", "vspect", "parse", "1.2.3"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -46,7 +63,7 @@ def test_parse():
     assert result.stdout == "1.2.3\n"
 
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "parse", "1.2.3.post4.dev5"],
+        EXECUTABLE + ["-m", "vspect", "parse", "1.2.3.post4.dev5"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -54,7 +71,7 @@ def test_parse():
     assert result.stdout == "1.2.3.post4.dev5\n"
 
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "parse", "1.2.3", "{major}.{minor}"],
+        EXECUTABLE + ["-m", "vspect", "parse", "1.2.3", "{major}.{minor}"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -64,7 +81,7 @@ def test_parse():
 
 def test_package():
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "package", "pytest"],
+        EXECUTABLE + ["-m", "vspect", "package", "pytest"],
         capture_output=True,
         universal_newlines=True,
     )
@@ -72,7 +89,7 @@ def test_package():
     assert result.stdout == f"{pytest.__version__}\n"
 
     result = subprocess.run(
-        [sys.executable, "-m", "vspect", "package", "pytest", "{major}.{minor}"],
+        EXECUTABLE + ["-m", "vspect", "package", "pytest", "{major}.{minor}"],
         capture_output=True,
         universal_newlines=True,
     )
