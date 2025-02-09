@@ -70,3 +70,12 @@ force-sort-within-sections = true
 minversion = "6.0"
 addopts = "--cov=vspect --cov-report=term --cov-report=html --cov-report=xml"
 testpaths = ["tests"]
+
+[tool.coverage.run]
+source = ["vspect"]
+
+[tool.coverage.paths]
+source = [
+  "src/vspect/",
+  "*/site-packages/vspect/",
+]
