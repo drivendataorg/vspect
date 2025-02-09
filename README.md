@@ -14,15 +14,15 @@ It was created to help work with version strings when doing automated package re
 
 Here are some examples:
 
-```bash
-❯ vspect package vspect
-0.1.0
+```sh
+vspect package vspect
+#> 0.1.0
 
-❯ vspect package vspect "{major_minor_version}"
-0.1
+vspect package vspect "{major_minor_version}"
+#> 0.1
 
-❯ vspect parse 1.2.3.post4.dev5 "v{major}.{minor}.{patch}{post}"
-v1.2.3post4
+vspect parse 1.2.3.post4.dev5 "v{major}.{minor}.{patch}{post}"
+#> v1.2.3post4
 ```
 
 See the ["Format string"](#format-string) section for all available replacement fields.
@@ -31,17 +31,19 @@ vspect's only dependency is the [packaging](https://packaging.pypa.io/en/stable/
 
 ## Installation
 
-```bash
+```sh
 pip install git+https://github.com/drivendataorg/vspect.git#egg=vspect
 ```
 
 ## Basic usage
 
-```bash
+```sh
 vspect package PACKAGE_NAME [FORMAT_STRING]
 # or
 vspect parse VERSION [FORMAT_STRING]
 ```
+
+The `package` subcommand requires that vspect is installed in the same virtual environment as the package you are trying to look up.
 
 ## Format string
 
