@@ -1,4 +1,5 @@
 from dataclasses import dataclass
+from typing import Sequence
 
 from packaging.version import Version
 import pytest
@@ -26,7 +27,7 @@ class _TestCaseExpected:
 @dataclass
 class _TestCase:
     input: str
-    expected: list[_TestCaseExpected]
+    expected: Sequence[_TestCaseExpected]
 
 
 TEST_CASES = [

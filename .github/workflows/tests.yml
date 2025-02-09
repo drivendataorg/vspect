@@ -58,12 +58,12 @@ jobs:
       #     token: ${{ secrets.CODECOV_TOKEN }}
       #   if: ${{ matrix.os == 'ubuntu-latest' }}
 
-  notify:
-    name: Notify failed build
-    needs: [code-quality, tests]
-    if: failure() && github.event.pull_request == null
-    runs-on: ubuntu-latest
-    steps:
-      - uses: jayqi/failed-build-issue-action@v1
-        with:
-          github-token: ${{ secrets.GITHUB_TOKEN }}
+  # notify:
+  #   name: Notify failed build
+  #   needs: [code-quality, tests]
+  #   if: failure() && github.event.pull_request == null
+  #   runs-on: ubuntu-latest
+  #   steps:
+  #     - uses: jayqi/failed-build-issue-action@v1
+  #       with:
+  #         github-token: ${{ secrets.GITHUB_TOKEN }}
