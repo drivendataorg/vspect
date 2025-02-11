@@ -7,7 +7,7 @@
 
 There are two main parts to using vspect:
 
-1. **Getting a version string** by using one of three approaches:
+1. **Get a version string** by using one of three approaches:
     - Use the **`package`** command with a package name, and vspect will look up that package's version in the current virtual environment.
     - Use the **`read`** command to read a statically-defined version from a `pyproject.toml` file. Give it either the file path or its parent directory path.
     - Use the **`parse`** command to with a version string you provide directly.
