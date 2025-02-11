@@ -1,6 +1,13 @@
 import importlib.metadata
+from pathlib import Path
+import sys
 
 from packaging.version import Version, parse
+
+if sys.version_info < (3, 11):
+    import tomli as tomllib
+else:
+    import tomllib
 
 __version__ = importlib.metadata.version("vspect")
 
@@ -15,6 +22,22 @@ def get_package_version(package_name: str) -> Version:
         packaging.Version: The version of the package.
     """
     return parse(importlib.metadata.version(package_name))
+
+
+def read_version_from_pyproject_toml(path: Path):
+    """Read the version from a pyproject.toml file. Requires the version to be statically defined.
+
+    Args:
+        path (Path): The path to the pyproject.toml file, or the directory containing it.
+
+    Returns:
+        packaging.Version: The version read from the file.
+    """
+    if path.is_dir():
+        path = path / "pyproject.toml"
+    with path.open("rb") as fp:
+        data = tomllib.load(fp)
+    return parse(data["project"]["version"])
 
 
 def format_version(version: Version, format_string: str) -> str:

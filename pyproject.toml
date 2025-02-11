@@ -1,7 +1,7 @@
 [project]
 name = "vspect"
 version = "0.1.0"
-description = "A lightweight command-line utility for working with Python package version strings."
+description = "Simple and lightweight command-line utility for working with Python package version strings."
 readme = "README.md"
 authors = [
   { name = "Jay Qi", email = "jayqi@users.noreply.github.com" },
@@ -23,6 +23,7 @@ classifiers = [
 requires-python = ">=3.8"
 dependencies = [
   "packaging",
+  "tomli ; python_version < '3.11'",
 ]
 
 [project.scripts]

@@ -3,31 +3,39 @@
 [![tests](https://github.com/drivendataorg/vspect/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/drivendataorg/vspect/actions?query=workflow%3Atests+branch%3Amain)
 [![codecov](https://codecov.io/gh/drivendataorg/vspect/branch/main/graph/badge.svg)](https://codecov.io/gh/drivendataorg/vspect)
 
-**vspect** (**v**ersion in**spect**) is a lightweight command-line utility for working with Python package version strings.
+**vspect** (**v**ersion in**spect**) is a simple and lightweight command-line utility for working with Python package version strings. It was created to make it easier to read and format version strings when doing automated package releases in CI.
 
-It was created to help work with version strings when doing automated package releases in CI. There are two main things that vspect does:
+There are two main parts to using vspect:
 
-1. You can either:
-    - Provide a **package name** with the `package` command, and vspect will look up that package in the current virtual environment and get its version; or
-    - Provide a [valid](https://packaging.python.org/en/latest/specifications/version-specifiers) **version string directly** with the `parse` command.
-2. Optionally, provide a formatting string to print out the version in a desired format. If not provided, vspect will print out the full version.
+1. **Getting a version string** by using one of the following commands:
+    - Use the **`package`** command with a package name, and vspect will look up that package's version in the current virtual environment.
+    - Use the **`read`** command to read a statically-defined version from a `pyproject.toml` file. Give it either the file path or its parent directory path.
+    - Use the **`parse`** command to with a version string you provide directly.
+2. **Render it according to a specified format** by optionally providing a Python formatting string. If not specified, the full version will be printed.
 
 Here are some examples:
 
 ```sh
-vspect package vspect
-#> 0.1.0
+# Look up a package's version
+vspect package pip
+#> 25.0.1
 
-vspect package vspect "{major_minor_version}"
+# Provide a format string to customize the format
+vspect package pip "{major_minor_version}"
+#> 25.0
+
+# Read from pyproject.toml. Can either be direct path or its parent directory
+vspect read . "{major_minor_version}"
 #> 0.1
 
+# Parse a directly given version string
 vspect parse 1.2.3.post4.dev5 "v{major}.{minor}.{patch}{post}"
 #> v1.2.3post4
 ```
 
 See the ["Format string"](#format-string) section for all available replacement fields.
 
-vspect's only dependency is the [packaging](https://packaging.pypa.io/en/stable/) package published by the [Python Packaging Authority (PyPA)](https://www.pypa.io/en/latest/), the working group that maintains Python packaging standards and specifications.
+vspect is lightweight with minimal dependencies. It only depends on the [packaging](https://packaging.pypa.io/en/stable/) package published by the [Python Packaging Authority (PyPA)](https://www.pypa.io/en/latest/) and a [backport](https://github.com/hukkin/tomli) of the standard library's tomllib for older versions of Python.
 
 ## Installation
 
@@ -39,6 +47,8 @@ pip install git+https://github.com/drivendataorg/vspect.git#egg=vspect
 
 ```sh
 vspect package PACKAGE_NAME [FORMAT_STRING]
+# or
+vspect read FILE_OR_DIR_PATH [FORMAT_STRING]
 # or
 vspect parse VERSION [FORMAT_STRING]
 ```
