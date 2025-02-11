@@ -1,10 +1,16 @@
 from dataclasses import dataclass
+from pathlib import Path
 from typing import Sequence
 
 from packaging.version import Version
 import pytest
 
-from vspect import __version__, format_version, get_package_version
+from vspect import (
+    __version__,
+    format_version,
+    get_package_version,
+    read_version_from_pyproject_toml,
+)
 
 
 def test_get_package_version():
@@ -16,6 +22,19 @@ def test_get_package_version():
     assert isinstance(pytest_version, Version)
     assert isinstance(get_package_version("pytest"), Version)
     assert str(pytest_version) == pytest.__version__
+
+
+def test_read_version_from_pyproject_toml():
+    # Read from direct path
+    pyproject_asset_path = Path(__file__).parent / "assets" / "pyproject.toml"
+    version = read_version_from_pyproject_toml(pyproject_asset_path)
+    assert isinstance(version, Version)
+    assert str(version) == "2020.0.0"
+
+    # Read from directory path
+    version = read_version_from_pyproject_toml(pyproject_asset_path.parent)
+    assert isinstance(version, Version)
+    assert str(version) == "2020.0.0"
 
 
 @dataclass

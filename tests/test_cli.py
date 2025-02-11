@@ -52,6 +52,14 @@ def test_help():
     assert result.returncode == 0
     assert "Get a package's version and format it." in result.stdout
 
+    result = subprocess.run(
+        EXECUTABLE + ["-m", "vspect", "read", "--help"],
+        capture_output=True,
+        universal_newlines=True,
+    )
+    assert result.returncode == 0
+    assert "Read a version from a pyproject.toml file and format it." in result.stdout
+
 
 def test_parse():
     result = subprocess.run(
@@ -96,3 +104,14 @@ def test_package():
     assert result.returncode == 0
     pytest_version_parts = pytest.__version__.split(".")
     assert result.stdout == f"{pytest_version_parts[0]}.{pytest_version_parts[1]}\n"
+
+
+def test_read():
+    result = subprocess.run(
+        EXECUTABLE
+        + ["-m", "vspect", "read", "tests/assets/pyproject.toml", "{major}.{minor}"],
+        capture_output=True,
+        universal_newlines=True,
+    )
+    assert result.returncode == 0
+    assert result.stdout == "2020.0\n"

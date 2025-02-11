@@ -1,9 +1,15 @@
 import argparse
+from pathlib import Path
 import textwrap
 
 from packaging.version import parse
 
-from vspect import __version__, format_version, get_package_version
+from vspect import (
+    __version__,
+    format_version,
+    get_package_version,
+    read_version_from_pyproject_toml,
+)
 
 # create the top-level parser
 parser = argparse.ArgumentParser(
@@ -124,7 +130,27 @@ package_parser.add_argument("package_name", help="Package name to get version of
 package_parser.set_defaults(_func=get_package_version_and_format)
 
 
-for subparser in (parse_parser, package_parser):
+def read_from_pyproject_toml_and_format(path: str, format_string: str):
+    version = read_version_from_pyproject_toml(Path(path))
+    print(format_version(version, format_string))
+
+
+read_parser = subparsers.add_parser(
+    "read",
+    help="Read a version from a pyproject.toml file and format it.",
+    description="Read a version from a pyproject.toml file and format it. "
+    + "Requires the version to be statically defined."
+    + "\n\n"
+    + REPLACEMENT_FIELD_HELP,
+    formatter_class=IndentedWrapFormatter,
+)
+read_parser.add_argument(
+    "path", help="File path or directory of a pyproject.toml file."
+)
+read_parser.set_defaults(_func=read_from_pyproject_toml_and_format)
+
+
+for subparser in (parse_parser, package_parser, read_parser):
     subparser.add_argument(
         "format_string",
         help="Format string to use for formatting the version. Default: '{version}'",
