@@ -35,6 +35,8 @@ vspect parse 1.2.3.post4.dev5 "v{major}.{minor}.{patch}{post}"
 
 See the ["Format string"](#format-string) section for all available replacement fields.
 
+While it's primarily intended for use with Python packages, you can easily use the `parse` command to manipulate generic dotted version strings in any context.
+
 vspect is lightweight with minimal dependencies. It only depends on the [packaging](https://packaging.pypa.io/en/stable/) package published by the [Python Packaging Authority (PyPA)](https://www.pypa.io/en/latest/) and a [backport](https://github.com/hukkin/tomli) of the standard library's tomllib for older versions of Python.
 
 ## Installation
