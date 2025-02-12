@@ -1,0 +1,65 @@
+name: release
+
+on:
+  workflow_dispatch:
+    inputs:
+      version:
+        description: 'Version tag'
+        required: true
+
+jobs:
+  build:
+    name: Build and publish new release
+    runs-on: "ubuntu-latest"
+    permissions:
+      contents: write  # required for ncipollo/release-action
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: astral-sh/setup-uv@v5
+
+      - name: Check that versions match
+        run: |
+          echo "Input version tag: [${{ github.event.inputs.version }}] "
+          PACKAGE_VERSION=$(uv run python -m vspect read .)
+          echo "Package version: [$PACKAGE_VERSION]"
+          [ ${{ github.event.inputs.version }} == "v$PACKAGE_VERSION" ] || { exit 1; }
+
+      - name: Build package
+        run: |
+          uv build
+
+      - name: Publish to Test PyPI
+        uses: pypa/gh-action-pypi-publish@v1.12.4
+        with:
+          user: ${{ secrets.PYPI_TEST_USERNAME }}
+          password: ${{ secrets.PYPI_TEST_PASSWORD }}
+          repository-url: https://test.pypi.org/legacy/
+          skip-existing: true
+
+      - name: Publish to Production PyPI
+        uses: pypa/gh-action-pypi-publish@v1.12.4
+        with:
+          user: ${{ secrets.PYPI_PROD_USERNAME }}
+          password: ${{ secrets.PYPI_PROD_PASSWORD }}
+          skip-existing: false
+
+      - name: Extract release notes from changelog
+        id: extract-changelog
+        uses: sean0x42/markdown-extract@v2.1.0
+        with:
+          file: CHANGELOG.md
+          pattern: ${{ github.event.inputs.version }}
+
+      - name: Write extracted release notes to file
+        run: |
+          printf '${{ steps.extract-changelog.outputs.markdown }}' > __CHANGELOG-extracted.md
+
+      - name: Create release on GitHub
+        uses: ncipollo/release-action@v1
+        with:
+          tag: ${{ github.event.inputs.version }}
+          commit: main
+          artifacts: "dist/*.whl,dist/*.tar.gz"
+          bodyFile: "__CHANGELOG-extracted.md"
