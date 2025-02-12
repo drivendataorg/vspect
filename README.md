@@ -1,5 +1,6 @@
 # vspect
 
+[![PyPI](https://img.shields.io/pypi/v/vspect.svg)](https://pypi.org/project/vspect/)
 [![tests](https://github.com/drivendataorg/vspect/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/drivendataorg/vspect/actions?query=workflow%3Atests+branch%3Amain)
 [![codecov](https://codecov.io/gh/drivendataorg/vspect/branch/main/graph/badge.svg)](https://codecov.io/gh/drivendataorg/vspect)
 
@@ -41,8 +42,10 @@ vspect is lightweight with minimal dependencies. It only depends on the [packagi
 
 ## Installation
 
+vspect is available from [PyPI](https://pypi.org/project/vspect/):
+
 ```sh
-pip install git+https://github.com/drivendataorg/vspect.git#egg=vspect
+pip install vspect
 ```
 
 ## Basic usage
