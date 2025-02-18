@@ -19,19 +19,19 @@ def get_package_version(package_name: str) -> Version:
         package_name (str): The name of the package to get the version of.
 
     Returns:
-        packaging.Version: The version of the package.
+        packaging.version.Version: The version of the package.
     """
     return parse(importlib.metadata.version(package_name))
 
 
-def read_version_from_pyproject_toml(path: Path):
+def read_version_from_pyproject_toml(path: Path) -> Version:
     """Read the version from a pyproject.toml file. Requires the version to be statically defined.
 
     Args:
         path (Path): The path to the pyproject.toml file, or the directory containing it.
 
     Returns:
-        packaging.Version: The version read from the file.
+        packaging.version.Version: The version read from the file.
     """
     if path.is_dir():
         path = path / "pyproject.toml"
@@ -44,7 +44,7 @@ def format_version(version: Version, format_string: str) -> str:
     """Format a version using a format string.
 
     Args:
-        version (packaging.Version): The version to format.
+        version (packaging.version.Version): The version to format.
         format_string (str): The format string to use.
 
     Returns:
