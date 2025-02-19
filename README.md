@@ -84,3 +84,10 @@ Both the `package` and `parse` subcommands take an optional `FORMAT_STRING`. The
 | `dev_number`          | The dev-release number. Empty if none.                       | `1.2.3.dev5` → `5`             |
 | `local`               | The local version string including `+`. Empty if none.       | `1.2.3+local` → `+local`       |
 | `local_segment`       | The local version segment. Empty if none.                    | `1.2.3+local` → `local`        |
+
+## Using as a library
+
+> [!WARNING]
+> vspect is primarily intended to be used as a CLI. The library API is more likely to have backwards-incompatible changes over time.
+
+You can import vspect and use its basic functionality as a Python library. See [`docs/api-reference.md`](./docs/api-reference.md) for documentation.

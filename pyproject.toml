@@ -38,10 +38,14 @@ build-backend = "hatchling.build"
 [dependency-groups]
 dev = [
   { include-group = "lint" },
+  { include-group = "docs" },
 ]
 lint = [
   "mypy[install-types]",
   "ruff",
+]
+docs = [
+  "griffe2md",
 ]
 tests = [
   "pytest",

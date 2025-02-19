@@ -16,3 +16,6 @@ typecheck:
 test *args:
     uv run --python {{python}} --isolated --no-editable --no-dev --group tests --reinstall \
         python -I -m pytest {{args}}
+
+docs:
+    griffe2md vspect -o docs/api-reference.md
