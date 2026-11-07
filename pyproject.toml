@@ -41,7 +41,6 @@ dev = [
   { include-group = "docs" },
 ]
 lint = [
-  "mypy[install-types]",
   "ruff",
 ]
 docs = [
@@ -52,6 +51,9 @@ tests = [
   "coverage",
   "pytest-cov",
 ]
+typecheck = [
+  "mypy[install-types]",
+]
 
 ## TOOLS
 
@@ -60,7 +62,7 @@ exclude-newer = "7 days"
 
 [tool.ruff]
 line-length = 99
-src = ["src"]
+src = ["src", "tests"]
 
 [tool.ruff.lint]
 select = [

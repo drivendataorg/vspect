@@ -13,10 +13,7 @@ def test_help():
         universal_newlines=True,
     )
     assert result.returncode == 0
-    assert (
-        "Lightweight utility for working with Python package version strings."
-        in result.stdout
-    )
+    assert "Lightweight utility for working with Python package version strings." in result.stdout
     assert "Commands" in result.stdout
     assert "parse" in result.stdout
     assert "package" in result.stdout
@@ -28,10 +25,7 @@ def test_help():
         universal_newlines=True,
     )
     assert result.returncode > 0
-    assert (
-        "Lightweight utility for working with Python package version strings."
-        in result.stdout
-    )
+    assert "Lightweight utility for working with Python package version strings." in result.stdout
     assert "Commands" in result.stdout
     assert "parse" in result.stdout
     assert "package" in result.stdout
@@ -108,8 +102,7 @@ def test_package():
 
 def test_read():
     result = subprocess.run(
-        EXECUTABLE
-        + ["-m", "vspect", "read", "tests/assets/pyproject.toml", "{major}.{minor}"],
+        EXECUTABLE + ["-m", "vspect", "read", "tests/assets/pyproject.toml", "{major}.{minor}"],
         capture_output=True,
         universal_newlines=True,
     )

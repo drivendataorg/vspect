@@ -47,9 +47,7 @@ class IndentedWrapFormatter(argparse.HelpFormatter):
 
             return "\n".join(wrapped_lines)
 
-        return super()._fill_text(
-            text, width, indent
-        )  # Default behavior for everything else
+        return super()._fill_text(text, width, indent)  # Default behavior for everything else
 
 
 REPLACEMENT_FIELD_HELP = """
@@ -121,9 +119,7 @@ def get_package_version_and_format(package_name: str, format_string: str):
 package_parser = subparsers.add_parser(
     "package",
     help="Get a package's version and format it.",
-    description="Get a package's version and format it."
-    + "\n\n"
-    + REPLACEMENT_FIELD_HELP,
+    description="Get a package's version and format it." + "\n\n" + REPLACEMENT_FIELD_HELP,
     formatter_class=IndentedWrapFormatter,
 )
 package_parser.add_argument("package_name", help="Package name to get version of.")
@@ -144,9 +140,7 @@ read_parser = subparsers.add_parser(
     + REPLACEMENT_FIELD_HELP,
     formatter_class=IndentedWrapFormatter,
 )
-read_parser.add_argument(
-    "path", help="File path or directory of a pyproject.toml file."
-)
+read_parser.add_argument("path", help="File path or directory of a pyproject.toml file.")
 read_parser.set_defaults(_func=read_from_pyproject_toml_and_format)
 
 
