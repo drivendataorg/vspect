@@ -126,6 +126,6 @@ TEST_CASES = [
 def test_format_version(test_case):
     version = Version(test_case.input)
     for expected in test_case.expected:
-        assert (
-            format_version(version, f"{{{expected.field_name}}}") == expected.expected
-        ), f"Failed for {expected.field_name}"
+        assert format_version(version, f"{{{expected.field_name}}}") == expected.expected, (
+            f"Failed for {expected.field_name}"
+        )

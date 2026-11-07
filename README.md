@@ -1,7 +1,7 @@
 # vspect
 
 [![PyPI](https://img.shields.io/pypi/v/vspect.svg)](https://pypi.org/project/vspect/)
-[![tests](https://github.com/drivendataorg/vspect/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/drivendataorg/vspect/actions?query=workflow%3Atests+branch%3Amain)
+[![tests](https://github.com/drivendataorg/vspect/actions/workflows/tests.yml/badge.svg?branch=main)](https://github.com/drivendataorg/vspect/actions/workflows/tests.yml?query=branch%3Amain)
 
 **vspect** (**v**ersion in**spect**) is a simple and lightweight command-line utility for working with Python package version strings. It was created to make it easier to read and format version strings when doing automated package releases in CI.
 

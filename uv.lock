@@ -418,20 +418,21 @@ dependencies = [
 [package.dev-dependencies]
 dev = [
     { name = "griffe2md" },
-    { name = "mypy", extra = ["install-types"] },
     { name = "ruff" },
 ]
 docs = [
     { name = "griffe2md" },
 ]
 lint = [
-    { name = "mypy", extra = ["install-types"] },
     { name = "ruff" },
 ]
 tests = [
     { name = "coverage" },
     { name = "pytest" },
     { name = "pytest-cov" },
+]
+typecheck = [
+    { name = "mypy", extra = ["install-types"] },
 ]
 
 [package.metadata]
@@ -443,16 +444,13 @@ requires-dist = [
 [package.metadata.requires-dev]
 dev = [
     { name = "griffe2md" },
-    { name = "mypy", extras = ["install-types"] },
     { name = "ruff" },
 ]
 docs = [{ name = "griffe2md" }]
-lint = [
-    { name = "mypy", extras = ["install-types"] },
-    { name = "ruff" },
-]
+lint = [{ name = "ruff" }]
 tests = [
     { name = "coverage" },
     { name = "pytest" },
     { name = "pytest-cov" },
 ]
+typecheck = [{ name = "mypy", extras = ["install-types"] }]

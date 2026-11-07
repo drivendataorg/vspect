@@ -7,22 +7,42 @@ python := shell("cat .python-version")
 help:
     just --list
 
-# Run linting
-lint:
-    ruff check src tests
+# Sync dev environment dependencies
+sync:
+    uv sync
+
+# Run linting (passes through args)
+lint *args:
+    uv run -- ruff format --check {{args}}
+    uv run -- ruff check {{args}}
+
+# Run formatting (passes through args)
+format *args:
+    uv run -- ruff format {{args}}
+    uv run -- ruff check --fix {{args}}
 
 # Audit GitHub Actions workflows with zizmor (passes through args)
 zizmor *args:
     uvx --exclude-newer "7 days" zizmor .github/ {{args}}
 
-# Run static typechecking
-typecheck:
-    mypy src --install-types --non-interactive
+# Run static typechecking (passes through args)
+[arg("python", long)]
+typecheck python=python *args:
+    uv run --python={{python}} --isolated --no-dev --group typecheck -- \
+        mypy --python-version={{python}} --install-types --non-interactive src {{args}}
 
-# Run the tests
-test *args:
-    uv run --python {{python}} --isolated --no-editable --no-dev --group tests --reinstall \
+# Run tests (passes through args)
+[arg("python", long)]
+test python=python *args:
+    uv run --python={{python}} --isolated --no-editable --no-dev --group tests --reinstall -- \
         python -I -m pytest {{args}}
 
+# Run all tests with Python version matrix
+test-all:
+    for python in 3.10 3.11 3.12 3.13 3.14 3.15; do \
+        just test --python=$python; \
+    done
+
+# Generate the API reference docs
 docs:
-    griffe2md vspect -o docs/api-reference.md
+    uv run -- griffe2md vspect -o docs/api-reference.md

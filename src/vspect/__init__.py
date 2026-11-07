@@ -64,11 +64,7 @@ def format_version(version: Version, format_string: str) -> str:
         patch=version.micro if version.micro is not None else version.patch,
         epoch=f"{version.epoch}!" if version.epoch else "",
         epoch_number=version.epoch if version.epoch else "",
-        pre=(
-            "".join(str(comp) for comp in version.pre)
-            if version.pre is not None
-            else ""
-        ),
+        pre=("".join(str(comp) for comp in version.pre) if version.pre is not None else ""),
         post=f".post{version.post}" if version.post is not None else "",
         post_number=version.post if version.post is not None else "",
         dev=f".dev{version.dev}" if version.dev is not None else "",
