@@ -52,7 +52,7 @@ tests = [
   "pytest-cov",
 ]
 typecheck = [
-  "mypy[install-types]",
+  "ty",
 ]
 
 ## TOOLS
@@ -75,6 +75,9 @@ unfixable = ["F"]
 [tool.ruff.lint.isort]
 known-first-party = ["vspect"]
 force-sort-within-sections = true
+
+[tool.ty.src]
+include = ["src"]
 
 [tool.pytest.ini_options]
 minversion = "6.0"
