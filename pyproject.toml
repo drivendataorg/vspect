@@ -48,7 +48,7 @@ docs = [
 ]
 tests = [
   "pytest",
-  "coverage",
+  "coverage>=7.10",
   "pytest-cov",
 ]
 typecheck = [
@@ -86,6 +86,7 @@ testpaths = ["tests"]
 
 [tool.coverage.run]
 source = ["vspect"]
+patch = ["subprocess"]
 
 [tool.coverage.paths]
 vspect = [
